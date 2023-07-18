@@ -1,75 +1,46 @@
 using System;
+using System.Threading;
 
-class Activity
+namespace MindfulnessProgram
 {
+    abstract class Activity
+    {
+        protected int duration;
 
-    string_activityName;
-    string_activityDescription;
-    int_activityDuration;
-
-    public string GetName()
-    {
-        return _activityName;
-    }
-    public void SetName(string name)
-    {
-        _activityName = name;
-    }
-
-    public string GetDescription()
-    {
-        return _activityDescription;
-    }
-    public void SetDescription(string description)
-    {
-        _activityDescription = description;
-    }
-
-    public int GetDuration()
-    {
-        return _activityDuration;
-    }
-    public void SetDuration(int duration)
-    {
-        _activityDuration = duration;
-    }
-
-    public void DisplayStartMessage()
-    {
-        Console.WriteLine($"Welcome to the {GetName()}");
-        Console.WriteLine($"\n\n{GetDescription()}");
-    }
-    public void DisplayEndMessage()
-    {
-        Console.WriteLine($"\nGreat job on the {GetName()}");
-    }
-    public void GetReadySpinner(int time)
-    {
-        DateTime startTime = DateTime.Now;
-        DateTime entTime = startTime.AddSeconds(time);
-
-        DateTime currentTime = DateTime.Now;
-
-        Console.WriteLine("Get Ready...");
-        while (currentTime < entTime)
+        public void Start()
         {
-            Console.Write("--");
-            Thread.Sleep(500);
-            Console.Write("\b\b");
-            Console.Write("\\ ");
-            Thread.Sleep(500);
-            Console.Write("\b\b");
-            Console.Write("| ");
-            Thread.Sleep(500);
-            Console.Write("\b\b");
-            Console.Write("/ ");
-            Thread.Sleep(500);
-            Console.Write("\b\b");
-            currentTime = DateTime.Now;
+            Console.WriteLine("Starting {0} activity...", GetActivityName());
+            Console.WriteLine(GetDescription());
+            SetDuration();
+            Console.WriteLine("Prepare to begin...");
+            Pause(3);
+            Console.WriteLine("Starting {0} activity for {1} seconds...", GetActivityName(), duration);
+            PerformActivity();
+            Console.WriteLine("Good job! You have completed the {0} activity for {1} seconds.", GetActivityName(), duration);
+            Pause(3);
+            Console.WriteLine();
         }
 
-        Console.Write("Go!");
-        Thread.Sleep(500);
+        public abstract string GetActivityName();
 
+        public abstract string GetDescription();
+
+        protected void SetDuration()
+        {
+            Console.Write("Enter the duration in seconds: ");
+            duration = int.Parse(Console.ReadLine());
+        }
+
+        protected void Pause(int seconds)
+        {
+            for (int i = seconds; i >= 1; i--)
+            {
+                Console.Write("Pause: {0}...", i);
+                Thread.Sleep(1000);
+            }
+            Console.WriteLine();
+        }
+
+        protected abstract void PerformActivity();
     }
 }
