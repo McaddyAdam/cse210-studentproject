@@ -1,9 +1,13 @@
 using System;
 
-class Program
+namespace ScriptureMemorizer
 {
-    static void Main(string[] args)
+    class Program
     {
-        Console.WriteLine("Hello Develop03 World!");
+        static void Main(string[] args)
+        {
+            ScriptureMemorizerApp app = new ScriptureMemorizerApp();
+            app.Run();
+        }
     }
 }
